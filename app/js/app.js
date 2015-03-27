@@ -3,7 +3,8 @@
 /* App Module */
 
 angular.module('imaginationKick', [
-    'tagFolders'
+    'tagFolders',
+    'imgUtils'
   //'ngRoute'
 ]).controller('mainController', [
     '$http', '$scope', function($http, $scope) {

@@ -1,5 +1,5 @@
-angular.module('tagFolders')
-.directive('err-src', function() {
+angular.module('imgUtils')
+.directive('errSrc', function() {
     function link(scope, elem, attrs) {
         elem.bind('error', function() {
             if (attrs.src != attrs.errSrc) {

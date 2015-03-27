@@ -6,7 +6,9 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="js/app.js"></script>
     <script src="js/tagFolders/main.js"></script>
-    <script src="js/tagFolders/directives/errSrc.js"></script>
+
+    <script src="js/imgUtils/main.js"></script>
+    <script src="js/imgUtils/directives/errSrc.js"></script>
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
@@ -14,6 +16,7 @@
         <!-- TODO: Impliment some site header -->
     </div>
     <div id="content" ng-controller="mainController">
+        {{tagCount | json}}
         <div ng-repeat="image in imageList">
             <div class="imageContainer">
                 <span ng-repeat='tag in image.tagList'>
