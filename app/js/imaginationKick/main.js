@@ -6,8 +6,8 @@ angular.module('imaginationKick', [
     'ngResource',
   //'ngRoute'
 ]).controller('mainController', [
-    'ImageFactory', '$scope', function(ImageFactory, $scope) {
-        $scope.imageList = ImageFactory.query();
+    'CardFactory', '$scope', function(CardFactory, $scope) {
+        $scope.CardList = CardFactory.query();
     }
 ]);
 
