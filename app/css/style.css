@@ -1,6 +1,11 @@
-.imageContainer {
+.cardContainer {
     float: left;
     overflow-y: auto;
     width: 300px;
     height: 300px;
+}
+
+.cardContainer #image
+{
+    width:180px;
 }

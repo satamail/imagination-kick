@@ -1,0 +1,16 @@
+Dictionary:
+    tag - some string, label or key word to record.
+    tagpath - set of tags, written through symbol '/'.
+
+Request:
+    url: get
+    method: GET
+    params:
+        count - integer, Max count of records to get;
+        tag - string, Specified tag or tagpath;
+
+    url: tag
+    method: GET
+    params:
+        count - integer, Max count of records to get;
+        parent - string, Specified tag or tagpath;

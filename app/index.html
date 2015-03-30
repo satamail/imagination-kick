@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <title>Imagination kick</title>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="js/app.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="js/imaginationKick/main.js"></script>
+    <script src="js/imaginationKick/resource/cardFactory.js"></script>
     <script src="js/tagFolders/main.js"></script>
 
     <script src="js/imgUtils/main.js"></script>
@@ -16,15 +18,14 @@
         <!-- TODO: Impliment some site header -->
     </div>
     <div id="content" ng-controller="mainController">
-        {{tagCount | json}}
-        <div ng-repeat="image in imageList">
-            <div class="imageContainer">
-                <span ng-repeat='tag in image.tagList'>
+        <div ng-repeat="card in cardList">
+            <div class="cardContainer">
+                <span ng-repeat='tag in card.tagList'>
                     <b ng-if='!$last'>{{tag}}, </b>
                     <b ng-if='$last'>{{tag}}</b>
                 </span>
                 <br/>
-                <img ng-src='{{image.img}}' err-src='img/No_Image.png' style="width:180px"/><br/>
+                <img id="image" ng-src='{{card.img}}' err-src='img/No_Image.png'/><br/>
             </div>
         </div>
     </div>
