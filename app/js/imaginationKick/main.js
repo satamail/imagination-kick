@@ -1,21 +1,13 @@
-'use strict';
-
-/* App Module */
+"use strict"
 
 angular.module('imaginationKick', [
     'tagFolders',
-    'imgUtils'
+    'imgUtils',
+    'ngResource',
   //'ngRoute'
 ]).controller('mainController', [
-    '$http', '$scope', function($http, $scope) {
-        $scope.imageList = [];
-        $http.get('/app/image/get').
-          success(function(data, status, headers, config) {
-            $scope.imageList = data;
-          }).
-          error(function(data, status, headers, config) {
-            console.log(data);
-          });
+    'ImageFactory', '$scope', function(ImageFactory, $scope) {
+        $scope.imageList = ImageFactory.query();
     }
 ]);
 
