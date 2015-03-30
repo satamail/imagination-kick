@@ -18,7 +18,6 @@
         <!-- TODO: Impliment some site header -->
     </div>
     <div id="content" ng-controller="mainController">
-        {{tagCount | json}}
         <div ng-repeat="card in cardList">
             <div class="cardContainer">
                 <span ng-repeat='tag in card.tagList'>
