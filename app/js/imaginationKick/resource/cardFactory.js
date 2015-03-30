@@ -1,7 +1,7 @@
 (function(angular)
 {
     function CardFactory($resource) {
-        var cardResource = $resource('/app/image/get', null,
+        var cardResource = $resource('/app/card/get', null,
         {
             'query': {
                 method:'GET', isArray:true

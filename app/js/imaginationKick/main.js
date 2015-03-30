@@ -7,7 +7,7 @@ angular.module('imaginationKick', [
   //'ngRoute'
 ]).controller('mainController', [
     'CardFactory', '$scope', function(CardFactory, $scope) {
-        $scope.CardList = CardFactory.query();
+        $scope.cardList = CardFactory.query();
     }
 ]);
 
