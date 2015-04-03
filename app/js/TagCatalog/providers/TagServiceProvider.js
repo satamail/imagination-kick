@@ -46,6 +46,6 @@
         }
     }
 
-    angular.module('TagFolders')
+    angular.module('TagCatalog')
         .provider('TagService', TagServiceProvider);
 })(angular);

@@ -46,6 +46,6 @@
         }
     }
 
-    angular.module('TagFolders')
+    angular.module('TagCatalog')
         .provider('CardService', CardServiceProvider);
 })(angular);
