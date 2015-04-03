@@ -1,6 +1,6 @@
 (function(angular)
 {
-    function CardFactory($resource) {
+    function CardResourceFactory($resource) {
         var cardResource = $resource('/app/card/get', null,
         {
             'query': {
@@ -9,6 +9,6 @@
         });
         return cardResource;
     }
-    angular.module('imaginationKick')
-    .factory('CardFactory', ['$resource', CardFactory]);
+    angular.module('ImaginationKick')
+        .factory('CardResource', ['$resource', CardResourceFactory]);
 })(angular);

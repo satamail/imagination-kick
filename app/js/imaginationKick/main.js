@@ -1,13 +1,10 @@
-"use strict"
+"use strict";
 
-angular.module('imaginationKick', [
-    'tagFolders',
-    'imgUtils',
-    'ngResource',
-  //'ngRoute'
-]).controller('mainController', [
-    'CardFactory', '$scope', function(CardFactory, $scope) {
-        $scope.cardList = CardFactory.query();
-    }
-]);
+(function(angular) {
+    angular.module('ImaginationKick', [
+        'TagCatalog',
+        'imgUtils',
+        'ngResource',
+    ]);
+})(angular)
 
