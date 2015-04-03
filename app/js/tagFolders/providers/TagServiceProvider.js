@@ -28,7 +28,6 @@
         {
             if (angular.isUndefined(tagSevice))
             {
-                console.log(resourceUrl, null, resourceMethods);
                 var tagResource = $resource(resourceUrl, null, resourceMethods);
                 tagSevice = new TagService(tagResource);
             }
