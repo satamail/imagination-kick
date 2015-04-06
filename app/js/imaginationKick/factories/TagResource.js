@@ -1,3 +1,7 @@
+"use strict";
+
+/* Factory for tag resource */
+
 (function(angular)
 {
     function TagResourceFactory($resource) {
