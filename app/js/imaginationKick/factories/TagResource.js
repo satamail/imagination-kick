@@ -1,6 +1,6 @@
 (function(angular)
 {
-    function TagFactory($resource) {
+    function TagResourceFactory($resource) {
         var tagResource = $resource('/app/card/tag', null,
         {
             'query': {
@@ -9,6 +9,6 @@
         });
         return tagResource;
     }
-    angular.module('imaginationKick')
-    .factory('TagFactory', ['$resource', TagFactory]);
+    angular.module('ImaginationKick')
+        .factory('TagResource', ['$resource', TagResourceFactory]);
 })(angular);
