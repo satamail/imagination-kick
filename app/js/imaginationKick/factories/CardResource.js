@@ -1,3 +1,7 @@
+"use strict";
+
+/* Factory for card resource */
+
 (function(angular)
 {
     function CardResourceFactory($resource) {
