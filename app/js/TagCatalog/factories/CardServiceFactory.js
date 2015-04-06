@@ -2,19 +2,20 @@
 /* Implimintation of tag service factoryr */
 
 (function(angular) {
-    function CardServiceFactory()
+    function CardServiceFactory($rootScope)
     {
+        function CardService(cardResource) {
+            this.getCardList = function(args)
+            {
+                args = args || {};
+                var result = cardResource.query.call(this, args);
+                $rootScope.$emit('tagcatalog.cardservice.update.cardlist', result);
+                return result;
+            }
+        }
         return CardService;
     }
 
-    function CardService(cardResource) {
-        this.getCardList = function(args)
-        {
-            args = args || {};
-            return cardResource.query.call(this, args);
-        }
-    }
-
     angular.module('TagCatalog')
-        .factory('CardServiceFactory', CardServiceFactory);
+        .factory('CardServiceFactory', ["$rootScope", CardServiceFactory]);
 })(angular);
