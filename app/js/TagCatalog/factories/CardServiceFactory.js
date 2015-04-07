@@ -5,11 +5,24 @@
     function CardServiceFactory($rootScope)
     {
         function CardService(cardResource) {
-            this.getCardList = function(args)
+
+            function prepearParams(count, tagpath, args)
             {
-                args = args || {};
-                var result = cardResource.query.call(this, args);
-                $rootScope.$emit('tagcatalog.cardservice.update.cardlist', result);
+                var result = args ? angular.copy(args) : {};
+                result.tagpath = tagpath || '';
+                result.count = count || -1;
+                return result;
+            }
+
+            function loadCardList(params)
+            {
+                return cardResource.query(params);
+            }
+
+            this.getCardList = function(count, tagpath, args)
+            {
+                var params = prepearParams(count, tagpath, args);
+                var result = loadCardList(params);
                 return result;
             }
         }
