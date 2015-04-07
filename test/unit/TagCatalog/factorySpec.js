@@ -12,26 +12,70 @@ describe('TagServiceFactory test:', function() {
         tagServiceFactory = $injector.get('TagServiceFactory');
     }));
 
+    it('should call resuorce query with default parameters', function () {
+        var tagResoure = {
+            query: function(params) {
+                // DO NOTHING
+            }
+        }
+        var defaultParams = {
+            count: -1,
+            tagpath:''
+        };
+        spyOn(tagResoure, 'query');
+        var tagService = new tagServiceFactory(tagResoure);
+        tagService.getTagList();
+        expect(tagResoure.query).toHaveBeenCalledWith(defaultParams);
+    });
+
     it('should call resuorce query with according parameters', function () {
         var tagResoure = {
-            query: function() {
+            query: function(params) {
                 // DO NOTHING
             }
         }
         spyOn(tagResoure, 'query');
         var tagService = new tagServiceFactory(tagResoure);
-        tagService.getTagList();
-        expect(tagResoure.query).toHaveBeenCalledWith({});
 
-        tagService.getTagList({count: 10});
-        expect(tagResoure.query).toHaveBeenCalledWith({count: 10});
+        var customCount = 10;
+        var paramsToQueryWithCustomCount = {
+            count: customCount, // value of getTagList first argument
+            tagpath: '' // Default value
+        };
+        tagService.getTagList(customCount);
+        expect(tagResoure.query).toHaveBeenCalledWith(paramsToQueryWithCustomCount);
 
-        tagService.getTagList({count: 30, tagpath: 'path'});
-        expect(tagResoure.query).toHaveBeenCalledWith({count: 30, tagpath: 'path'});
+        var customTagpath = 'custom/tag/path';
+        var paramsToQueryWithCustomParams = {
+            count: customCount, // value of getTagList's first argument
+            tagpath: customTagpath // value of getTagList's second argument
+        };
+        tagService.getTagList(customCount, customTagpath);
+        expect(tagResoure.query).toHaveBeenCalledWith(paramsToQueryWithCustomParams);
+
+        var customArgs = {
+            someCustomArg: 'somevalue',
+            anotherCustomArg: 'anotherValue'
+        };
+        var paramsToQueryWithAdditionalParams = {
+            count: customCount, // value of getTagList's first argument
+            tagpath: customTagpath, // value of getTagList's second argument
+            someCustomArg: customArgs.someCustomArg, // value from getTagList's third argument
+            anotherCustomArg: customArgs.anotherCustomArg // value from getTagList's third argument
+        };
+        tagService.getTagList(customCount, customTagpath, customArgs);
+        expect(tagResoure.query).toHaveBeenCalledWith(paramsToQueryWithAdditionalParams);
     });
 
     it('should return query result from getTagList', function () {
+        var customPath = '';
         var tagList = [
+            {
+                name: 'tag1',
+                'childrenCount': 2
+            }
+        ];
+        var anotherTagList = [
             {
                 name: 'tag1',
                 'childrenCount': 2
@@ -42,20 +86,26 @@ describe('TagServiceFactory test:', function() {
             }
         ];
         var tagResoure = {
-            query: function() {
-                return angular.copy(tagList);
+            query: function(args) {
+                var result = [];
+                if (args.count == tagList.length)
+                {
+                    result = angular.copy(tagList);
+                }
+                else if ((args.count == anotherTagList.length) && (args.tagpath == customPath))
+                {
+                    result = angular.copy(anotherTagList);
+                }
+                return result;
             }
         }
         var tagService = new tagServiceFactory(tagResoure);
-        var resultTagResource = tagService.getTagList();
-        resultTagResource[0].name = '';
+
+        var resultTagResource = tagService.getTagList(tagList.length);
         expect(resultTagResource.toString()).toEqual(tagList.toString());
 
-        resultTagResource = tagService.getTagList({count: 10});
-        expect(resultTagResource.toString()).toEqual(tagList.toString());
-
-        resultTagResource = tagService.getTagList({count: 30, tagpath: 'path'});
-        expect(resultTagResource.toString()).toEqual(tagList.toString());
+        resultTagResource = tagService.getTagList(anotherTagList.length, customPath);
+        expect(resultTagResource.toString()).toEqual(anotherTagList.toString());
     });
 
 });
