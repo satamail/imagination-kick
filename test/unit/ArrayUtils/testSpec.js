@@ -152,6 +152,6 @@ describe('ArrayUtils test:', function() {
         // arr_1 = [1, 2, -4] deleted: [-3, -5, 6]
         // arr_1 = [1, 2, -4] new: [-7, -6]
         // arr is equals:)
-        expect(mv.toString()).toBe([false, false, false, false, true].toString());
+        expect(mv.toString()).toBe([false, false, false, false, false].toString());
     });
 });

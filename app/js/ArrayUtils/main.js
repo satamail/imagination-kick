@@ -45,7 +45,6 @@
 
         self.detectMove = function detectMove(oldArr, newArr, eqFn)
         {
-            console.log(eqFn);
             eqFn = eqFn || angular.equals;
             var del = self.detectDeleted(oldArr, newArr, eqFn);
             var oldWithoutDel = [];
@@ -70,7 +69,6 @@
             self.setAll(result, false);
             for (var i = 0; i < newWithoutNew.length; i++)
             {
-                console.log(oldWithoutDel[i].value +' '+ newWithoutNew[i].value, '=' + eqFn(oldWithoutDel[i].value, newWithoutNew[i].value));
                 if (eqFn(oldWithoutDel[i].value, newWithoutNew[i].value) == false)
                 {
                     result[newWithoutNew[i].index] = true;
