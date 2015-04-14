@@ -11,6 +11,8 @@ module.exports = function(config){
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/js/imgUtils/main.js',
       'app/js/TagCatalog/main.js',
+      'app/js/ElementUtils/main.js',
+      'app/js/ikDashboard/main.js',
       'app/js/ImaginationKick/main.js',
       'app/js/**/*.js',
       'test/unit/**/*.js'
