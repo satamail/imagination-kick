@@ -12,6 +12,7 @@ module.exports = function(config){
       'app/js/imgUtils/main.js',
       'app/js/TagCatalog/main.js',
       'app/js/ElementUtils/main.js',
+      'app/js/ikDashboardHelper/main.js',
       'app/js/ikDashboard/main.js',
       'app/js/ImaginationKick/main.js',
       'app/js/**/*.js',
