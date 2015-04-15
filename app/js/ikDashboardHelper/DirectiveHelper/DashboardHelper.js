@@ -4,6 +4,7 @@
 
     function DashboardHelper(elementUtils)
     {
+
         var $minErr = angular.$$minErr('DashboardHelper');
 
         var gearAttributeList = [
@@ -15,11 +16,24 @@
             'ik-gear-id': 'ikGearId'
         }
 
+        /**
+         * Normolize valid gear attribute name.
+         * @param {string} name Valid gear attribute name.
+         * @returns {string} Normilized gear attribute name.
+         */
         function normolize(name)
         {
-            return normolizeName[name];
+            return normolizeName.hasOwnProperty(name) ? normolizeName[name] : undefined;
         }
 
+
+        /**
+         * Determine node gear type and return it name or undefined if it is not a gear.
+         * In case of node has two or more gear attribute function throw error.
+         * @param {angular.element} node Element to determine gear type.
+         * @returns {string | undefined} Gear type name or undefine, if node is not a gear.
+         * @throws Attribute error, if node has two or more gear attribute.
+         */
         function getGearType(node)
         {
             var gearAttrList = elementUtils.hasAttributeFromList(node, gearAttributeList);
@@ -32,15 +46,22 @@
             return (gearAttrList.length == 0) ? undefined : gearAttrList[0];
         }
 
+
+        /**
+         * Geerate node gear info, string with ik-gear-id and gear type and attribute value.
+         * @param {angular.element} node Element to generate info from.
+         * @returns {string} String representation of gear (ik-gear-id and gear type and attribute value).
+         * @throws Gear type error, in case of specified node is not a gear.
+         */
         function getGearInfo(node)
         {
-            var gearType = getGearType(node);
+            var gearType = self.getGearType(node);
             var action = undefined;
             if (angular.isDefined(gearType))
             {
                 var attrList = ['ik-gear-id', gearType]
                 action = 'ikGearId: ' + node.attr('ik-gear-id') + ' '
-                    + normolize(gearType) + ': ' + node.attr(gearType);
+                    + self.normolize(gearType) + ': ' + node.attr(gearType);
             }
             else
             {
@@ -49,30 +70,44 @@
             return action;
         }
 
+
+        /**
+         * Check is node a gear
+         * @param {angular.element} node Element to check.
+         * @returns {boolean} True, if node is gear, false, otherwise.
+         */
         function isGear(node)
         {
-            return angular.isDefined(getGearType(node)) ? true: false;
+            return angular.isDefined(self.getGearType(node)) ? true: false;
         }
 
+        /**
+         * Filter gears from not gear element.
+         * @param {angular.element} elementList Element list to filter.
+         * @returns {angular.element} Element array only with gears.
+         */
         function getGearsFromList(elementList)
         {
             var gearList = angular.element();
             for(var i = 0; i < elementList.length; i++)
             {
                 var element = elementList.eq(i);
-                if (isGear(element))
+                if (self.isGear(element))
                 {
                     gearList.push(element[0]);
                 }
             }
             return gearList;
         }
-        return {
+
+        var self = {
             isGear: isGear,
             normolize: normolize,
             getGearsFromList: getGearsFromList,
-            getGearInfo: getGearInfo
+            getGearInfo: getGearInfo,
+            getGearType: getGearType
         }
+        return self;
     }
 
     angular.module('ikDashboardHelper')
