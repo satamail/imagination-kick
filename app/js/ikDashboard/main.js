@@ -3,7 +3,8 @@
 (function(angular) {
     angular.module('ikDashboard', [
         'ArrayUtils',
-        'ElementUtils'
+        'ElementUtils',
+        'ikDashboardHelper',
     ]);
 })(angular)
 
