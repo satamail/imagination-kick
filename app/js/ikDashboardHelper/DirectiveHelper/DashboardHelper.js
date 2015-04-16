@@ -2,7 +2,7 @@
 
 (function(angular) {
 
-    function DashboardHelper(elementUtils)
+    function DashboardHelper(elementUtils, queueItemFactory)
     {
 
         var $minErr = angular.$$minErr('DashboardHelper');
@@ -29,13 +29,36 @@
             return normolizeName.hasOwnProperty(name) ? normolizeName[name] : undefined;
         }
 
+        /**
+         * Denormolize valid gear type.
+         * Remove capital leter with dashes and it normal analog.
+         *
+         * @param {string} name Valid gear type.
+         * @returns {string|undefined} Valid gear attribute name, or undefined if name is not valid gear name.
+         *
+         */
+        function denormolize(name)
+        {
+            var attr = undefined;
+            for(var key in normolizeName)
+            {
+                if (normolizeName[key] === name)
+                {
+
+                    attr = key;
+                    break;
+                }
+            }
+            return attr;
+        }
+
 
         /**
          * Determine node gear type and return it name or undefined, if it is not a gear.
          * In case of node has two or more gear attribute function throw error.
          *
          * @param {angular.element} node Element to determine gear type.
-         * @returns {string | undefined} Gear type name or undefined, if node is not a gear.
+         * @returns {string | undefined} Normolized gear type name or undefined, if node is not a gear.
          *
          * @throws Attribute error, if node has two or more gear attribute.
          *
@@ -50,6 +73,25 @@
                                 "Gear can not has more then one gear attribute, but one has {0}", attr);
             }
             return (gearAttrList.length == 0) ? undefined : normolize(gearAttrList[0]);
+        }
+
+        /**
+         * Create gear quoue item from template and transclude func.
+         * Determine template gear type and create queue item.
+         *
+         * @param {trascludeFn} gear Transclude func for template.
+         * @param {angular.element} template Element with gear template.
+         * @return {object} Gear queue item, whitch contains gear type, transcludeFn and aditional data.
+         *
+         * @throws Attribute error, if node has two or more gear attribute.
+         *
+         * @see getGearType
+         *
+         */
+        function createGearQueueItem(gear, template)
+        {
+            var type = self.getGearType(template);
+            return queueItemFactory(gear, template, type);
         }
 
         /**
@@ -96,9 +138,9 @@
             var action = undefined;
             if (angular.isDefined(gearType))
             {
-                var attrList = ['ik-gear-id', gearType]
+                var attrName = self.denormolize(gearType);
                 action = 'ikGearId: ' + node.attr('ik-gear-id') + ' '
-                    + self.normolize(gearType) + ': ' + node.attr(gearType);
+                    + gearType + ': ' + node.attr(attrName);
             }
             else
             {
@@ -154,13 +196,15 @@
             getGearsFromList: getGearsFromList,
             getGearInfo: getGearInfo,
             getGearType: getGearType,
-            getGearWithType: getGearWithType
+            getGearWithType: getGearWithType,
+            createGearQueueItem: createGearQueueItem,
+            denormolize: denormolize
         }
         return self;
     }
 
     angular.module('ikDashboardHelper')
     .service(
-        'DashboardHelper', ['ElementUtils', DashboardHelper]
+        'DashboardHelper', ['ElementUtils', 'GearQueueItemFactory', DashboardHelper]
     )
 })(angular)

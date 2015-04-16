@@ -37,7 +37,7 @@
              *
              * @see getGearTemplateList, markGearTemplate
              */
-            this.indexingTemplate = function indexingGear()
+            this.indexingGearTemplate = function indexingGearTemplate()
             {
                 var templateList = this.getGearTemplateList();
                 angular.forEach(templateList, function indexingTEamplate(template, $index)
@@ -73,9 +73,29 @@
             }
 
             /**
-             * Remove all gear template from dashboard.
+             * Clone all gear template from dashboard.
+             *
+             * @return {Array} Array of gear template clones.
+             *
+             * @throws Attribute error, if some node has two or more gear attribute.
+             *
+             * @see DashboardHelper.getGearsFromList
+             *
              */
-            this.removeTemplate = function removeTemplate()
+            this.cloneGearTemplate = function cloneGearTemplate()
+            {
+                var templateList = this.getGearTemplateList();
+                return elementUtils.clone(templateList);
+            }
+
+            /**
+             * Remove all gear template from dashboard.
+             *
+             * @throws Attribute error, if some node has two or more gear attribute.
+             *
+             * @see DashboardHelper.getGearsFromList
+             */
+            this.removeGearTemplate = function removeGearTemplate()
             {
                 var templateList = this.getGearTemplateList();
                 elementUtils.removeAll(templateList);
