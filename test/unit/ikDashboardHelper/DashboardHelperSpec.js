@@ -49,7 +49,7 @@ describe('DashboardHelper test:', function() {
         };
         var gearType = dashboardHelper.getGearType(element);
         expect(elementUtils.hasAttributeFromList).toHaveBeenCalled();
-        expect(gearType).toBe('ik-gear-repeat');
+        expect(gearType).toBe('ikGearRepeat');
     });
 
     it('should not get gear type', function() {
@@ -215,6 +215,82 @@ describe('DashboardHelper test:', function() {
         expect(function () {
             dashboardHelper.getGearsFromList(elementList)
         }).toThrow('some error');
+    });
+
+    it('should filter gear by type', function()
+    {
+        var elementList = [
+            ['ikGearRepeat'],
+            ['ikGearRepeat'],
+            ['someGearType'],
+            ['ikGearRepeat']
+        ];// angular.element list moke
+
+        spyOn(dashboardHelper, 'getGearType').andCallFake(function(gear) {
+            return gear;
+        });
+
+        var repeatList = dashboardHelper.getGearWithType(elementList, 'ikGearRepeat');
+        expect(dashboardHelper.getGearType.calls.length).toBe(4);
+        var expectedList = angular.element();
+        expectedList.push(['ikGearRepeat']);
+        expectedList.push(['ikGearRepeat']);
+        expectedList.push(['ikGearRepeat']);
+        expect(repeatList.length).toBe(3);
+        expect(repeatList).toEqual(expectedList);
+    });
+
+    it('should return empty angular.element array', function()
+    {
+        var elementList = [
+        ];// angular.element list moke
+
+        spyOn(dashboardHelper, 'getGearType').andCallFake(function(gear) {
+            return gear;
+        });
+
+        var repeatList = dashboardHelper.getGearWithType(elementList, 'ikGearRepeat');
+        expect(dashboardHelper.getGearType.calls.length).toBe(0);
+        var expectedList = angular.element();
+        expect(repeatList.length).toBe(0);
+        expect(repeatList).toEqual(expectedList);
+    });
+
+    it('should return empty angular.element array', function()
+    {
+        var elementList = [
+            ['ikGearRepeat'],
+            ['ikGearRepeat'],
+            ['someGearType'],
+            ['ikGearRepeat']
+        ];// angular.element list moke
+
+        spyOn(dashboardHelper, 'getGearType').andCallFake(function(gear) {
+            return gear;
+        });
+
+        var repeatList = dashboardHelper.getGearWithType(elementList, 'NonExisedType');
+        expect(dashboardHelper.getGearType.calls.length).toBe(4);
+        var expectedList = angular.element();
+        expect(repeatList.length).toBe(0);
+        expect(repeatList).toEqual(expectedList);
+    });
+
+    it('should throw error from getGearType method', function()
+    {
+        var elementList = [
+            ['ikGearRepeat'],
+            ['ikGearRepeat'],
+            ['someGearType'],
+            ['ikGearRepeat']
+        ];// angular.element list moke
+
+        spyOn(dashboardHelper, 'getGearType').andThrow('some error');
+
+        expect(function () {
+            dashboardHelper.getGearWithType(elementList, 'ikGearRepeat');
+        }).toThrow('some error');
+        expect(dashboardHelper.getGearType.calls.length).toBe(1);
     });
 });
 

@@ -49,9 +49,34 @@
                 throw $minErr('Attribute error',
                                 "Gear can not has more then one gear attribute, but one has {0}", attr);
             }
-            return (gearAttrList.length == 0) ? undefined : gearAttrList[0];
+            return (gearAttrList.length == 0) ? undefined : normolize(gearAttrList[0]);
         }
 
+        /**
+         * Get, from specified list, gear with specified type.
+         * Look trought specified list, then get gear type and,
+         * if gear type equal specified type, add it to result array
+         *
+         * @param {angular.element} gearList List with gear templates.
+         * @param {string} type Type to get gears with.
+         *
+         * @throws Attribute error, if node has two or more gear attribute.
+         *
+         * @see getGearType
+         *
+         */
+        function getGearWithType(gearList, type)
+        {
+            var result = angular.element();
+            angular.forEach(gearList, function(gear)
+            {
+                if (self.getGearType(gear) == type)
+                {
+                    result.push(gear);
+                }
+            });
+            return result;
+        }
 
         /**
          * Generate node gear info, string with ik-gear-id, gear type and attribute value.
@@ -128,7 +153,8 @@
             normolize: normolize,
             getGearsFromList: getGearsFromList,
             getGearInfo: getGearInfo,
-            getGearType: getGearType
+            getGearType: getGearType,
+            getGearWithType: getGearWithType
         }
         return self;
     }
