@@ -159,3 +159,45 @@ describe('ElementUtils removeAll test:', function() {
     });
 });
 
+
+describe('ElementUtils createComment test:', function() {
+    var ElementUtils;
+
+    beforeEach(module('ElementUtils'));
+
+    beforeEach(inject(function ($injector)
+    {
+        ElementUtils = $injector.get('ElementUtils');
+    }));
+
+    it('should create comment with speified txt', function ()
+    {
+        var comment_1 = ElementUtils.createComment("some_text");
+        var comment_2 = document.createComment("some_text");
+        expect(comment_1.outerText).toEqual(comment_2.outerText);
+    });
+});
+
+describe('ElementUtils before test:', function() {
+    var ElementUtils;
+
+    beforeEach(module('ElementUtils'));
+
+    beforeEach(inject(function ($injector)
+    {
+        ElementUtils = $injector.get('ElementUtils');
+    }));
+
+    it('should add element before another', function ()
+    {
+        var element = angular.element('<div> \
+                                        <span id="someid"></span> \
+                                      </div>');
+        var someElement = element.find('span');
+        var otherElement = angular.element('<span></span>')
+        expect(element.children().length).toBe(1);
+        ElementUtils.before(someElement, otherElement);
+        expect(element.children().length).toBe(2);
+        expect(otherElement.next()).toEqual(someElement);
+    });
+});
