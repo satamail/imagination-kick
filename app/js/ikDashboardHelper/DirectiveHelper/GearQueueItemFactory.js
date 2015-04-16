@@ -17,6 +17,7 @@
             var item = proccessors[type](template);
             item.type = type;
             item.transclude = gear;
+            item.template = template;
             return item;
         }
     }
