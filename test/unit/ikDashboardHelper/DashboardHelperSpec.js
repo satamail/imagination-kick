@@ -113,6 +113,17 @@ describe('DashboardHelper test:', function() {
         expect(dashboardHelper.normolize('some-gear-type')).toBe(undefined);
     });
 
+    it('should denormolize ikGearRepeat and ikGearId', function()
+    {
+        expect(dashboardHelper.denormolize('ikGearRepeat')).toEqual('ik-gear-repeat');
+        expect(dashboardHelper.denormolize('ikGearId')).toEqual('ik-gear-id');
+    });
+
+    it('should return undefined from denormolize, becouse not valid name', function()
+    {
+        expect(dashboardHelper.denormolize('someGearType')).toBe(undefined);
+    });
+
 
     beforeEach(function ()
     {
@@ -136,13 +147,9 @@ describe('DashboardHelper test:', function() {
             }
         };
         spyOn(element, 'attr').andCallThrough();
-        spyOn(dashboardHelper, 'getGearType').andReturn('ik-gear-repeat'); // return valid gear type
+        spyOn(dashboardHelper, 'getGearType').andReturn('ikGearRepeat'); // return valid gear type
         var info = dashboardHelper.getGearInfo(element);
-
         expect(dashboardHelper.getGearType).toHaveBeenCalledWith(element);
-        expect(element.attr.calls[0].args).toEqual(['ik-gear-id']);
-        expect(element.attr.calls[1].args).toEqual(['ik-gear-repeat']);
-        expect(dashboardHelper.normolize).toHaveBeenCalledWith('ik-gear-repeat');
         expect(info).toEqual('ikGearId: 0 ikGearRepeat: someList');
     });
 
@@ -291,6 +298,37 @@ describe('DashboardHelper test:', function() {
             dashboardHelper.getGearWithType(elementList, 'ikGearRepeat');
         }).toThrow('some error');
         expect(dashboardHelper.getGearType.calls.length).toBe(1);
+    });
+});
+
+
+describe('DashboardHelper createGearQueueItem test:', function() {
+    var dashboardHelper;
+    var transcludeFn;
+    var gearQueueItemFactory;
+
+    beforeEach(module('ElementUtils'));
+
+    beforeEach(module('ikDashboardHelper', function($provide)
+    {
+        gearQueueItemFactory = jasmine.createSpy('gearQueueItemFactory').andReturn({someField: 'someValue'});
+        $provide.value('GearQueueItemFactory', gearQueueItemFactory);
+    }));
+
+    beforeEach(inject(function ($injector)
+    {
+        dashboardHelper = $injector.get('DashboardHelper');
+        spyOn(dashboardHelper, 'getGearType').andReturn('someGearType');
+        transcludeFn = jasmine.createSpy('gearQueueItemFactory');
+    }));
+
+    it('should call getGearType method and return gearQueueItemFactory result', function ()
+    {
+        var template = angular.element() // it can be empty in this test
+        dashboardHelper.createGearQueueItem(transcludeFn, template);
+        expect(dashboardHelper.getGearType).toHaveBeenCalledWith(template);
+        expect(gearQueueItemFactory).toHaveBeenCalledWith(transcludeFn, template, 'someGearType');
+        expect(transcludeFn).not.toHaveBeenCalled();
     });
 });
 
