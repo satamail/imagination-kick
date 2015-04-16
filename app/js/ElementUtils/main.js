@@ -49,6 +49,19 @@
                 element.remove();
             });
         }
+
+        self.createComment = function createComment(text)
+        {
+            return document.createComment(text);
+        }
+
+        self.before = function before(element, content)
+        {
+            var node = element[0];
+            var insertNode = content[0];
+            var parent = node.parentNode;
+            parent.insertBefore(insertNode, node);
+        }
     }
     angular.module('ElementUtils', [])
     .service('ElementUtils', ['$rootElement', ElementUtils]);
