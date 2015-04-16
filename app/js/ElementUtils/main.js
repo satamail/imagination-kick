@@ -62,6 +62,17 @@
             var parent = node.parentNode;
             parent.insertBefore(insertNode, node);
         }
+
+        self.clone = function clone(elementList)
+        {
+            var cloneList = angular.element();
+            angular.forEach(elementList, function cloneElement(node)
+            {
+                var clone = node.cloneNode(true);
+                cloneList.push(clone);
+            });
+            return cloneList;
+        }
     }
     angular.module('ElementUtils', [])
     .service('ElementUtils', ['$rootElement', ElementUtils]);

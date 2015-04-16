@@ -201,3 +201,46 @@ describe('ElementUtils before test:', function() {
         expect(otherElement.next()).toEqual(someElement);
     });
 });
+
+describe('ElementUtils clone test:', function() {
+    var ElementUtils;
+
+    beforeEach(module('ElementUtils'));
+
+    beforeEach(inject(function ($injector)
+    {
+        ElementUtils = $injector.get('ElementUtils');
+    }));
+
+    it('should clone element', function ()
+    {
+        var element = angular.element('<div><span id="someid"></span></div>');
+        var otherElement = ElementUtils.clone(element);
+        expect(otherElement[0].outerHTML).toEqual(element[0].outerHTML);
+
+        element.attr('someattr', 'somevalue');
+        expect(otherElement[0].outerHTML).toNotEqual(element[0].outerHTML);
+    });
+
+    it('should clone element list', function ()
+    {
+        var elementList = angular.element('<div><span id="someid"></span></div>');
+        var item = angular.element('<span id="someid"></span>');
+        elementList.push(item[0]);
+        item = angular.element('<a id="someid"></a>');
+        elementList.push(item[0]);
+
+        var clonedList = ElementUtils.clone(elementList);
+
+        expect(clonedList.length).toEqual(elementList.length);
+        expect(clonedList[0].outerHTML).toEqual(elementList[0].outerHTML);
+        expect(clonedList[1].outerHTML).toEqual(elementList[1].outerHTML);
+        expect(clonedList[2].outerHTML).toEqual(elementList[2].outerHTML);
+
+        clonedList.attr('someattr', 'somevalue');
+        expect(clonedList[0].outerHTML).toNotEqual(elementList[0].outerHTML);
+        expect(clonedList[1].outerHTML).toNotEqual(elementList[1].outerHTML);
+        expect(clonedList[2].outerHTML).toNotEqual(elementList[2].outerHTML);
+    });
+});
+
