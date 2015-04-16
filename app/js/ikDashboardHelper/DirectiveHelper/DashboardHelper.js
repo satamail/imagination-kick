@@ -18,8 +18,11 @@
 
         /**
          * Normolize valid gear attribute name.
+         * Remove dashes and replace letter after it with capital.
+         *
          * @param {string} name Valid gear attribute name.
-         * @returns {string} Normilized gear attribute name.
+         * @returns {string|undefined} Normilized gear attribute name, or undefined if name is not valid gear name.
+         *
          */
         function normolize(name)
         {
@@ -28,11 +31,14 @@
 
 
         /**
-         * Determine node gear type and return it name or undefined if it is not a gear.
+         * Determine node gear type and return it name or undefined, if it is not a gear.
          * In case of node has two or more gear attribute function throw error.
+         *
          * @param {angular.element} node Element to determine gear type.
-         * @returns {string | undefined} Gear type name or undefine, if node is not a gear.
+         * @returns {string | undefined} Gear type name or undefined, if node is not a gear.
+         *
          * @throws Attribute error, if node has two or more gear attribute.
+         *
          */
         function getGearType(node)
         {
@@ -48,10 +54,16 @@
 
 
         /**
-         * Geerate node gear info, string with ik-gear-id and gear type and attribute value.
+         * Generate node gear info, string with ik-gear-id, gear type and attribute value.
+         *
          * @param {angular.element} node Element to generate info from.
-         * @returns {string} String representation of gear (ik-gear-id and gear type and attribute value).
+         * @returns {string} String Representation of gear (ik-gear-id, gear type and attribute value).
+         *
          * @throws Gear type error, in case of specified node is not a gear.
+         * @throws Attribute error, in case if gear type has two or more gear attribute
+         *
+         * @see getGearType
+         *
          */
         function getGearInfo(node)
         {
@@ -72,9 +84,14 @@
 
 
         /**
-         * Check is node a gear
+         * Check is node a gear.
+         *
          * @param {angular.element} node Element to check.
          * @returns {boolean} True, if node is gear, false, otherwise.
+         *
+         * @throws Attribute error, if node has two or more gear attribute.
+         *
+         * @see getGearType
          */
         function isGear(node)
         {
@@ -83,8 +100,14 @@
 
         /**
          * Filter gears from not gear element.
+         *
          * @param {angular.element} elementList Element list to filter.
          * @returns {angular.element} Element array only with gears.
+         *
+         * @throws Attribute error, if some node has two or more gear attribute.
+         *
+         * @see isGear
+         *
          */
         function getGearsFromList(elementList)
         {
