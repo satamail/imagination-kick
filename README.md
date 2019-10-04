@@ -260,5 +260,5 @@ For more information on AngularJS please check out http://angularjs.org/
 [$resource]: http://docs.angularjs.org/api/ngResource/service/$resource
 [$route]: http://docs.angularjs.org/api/ngRoute/service/$route
 [protractor]: https://github.com/angular/protractor
-[jasmine]: http://pivotal.github.com/jasmine/
+[jasmine]: https://jasmine.github.io/
 [karma]: http://karma-runner.github.io
